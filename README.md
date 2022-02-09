@@ -1,2 +1,3 @@
-# ProjectImage
-Project Image Group 6
+# ProjectImageDIP
+Project DIP Image Group 6
+Exam Answer Checking
