@@ -2,6 +2,8 @@ import imutils
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import skimage
+from  skimage.measure import label,regionprops
 
 def peepsctive(thresh):
     corners = cv2.goodFeaturesToTrack(thresh, 4, 0.01, 100)
@@ -71,6 +73,7 @@ peepsctive(preimg(img))
 A4 = cv2.imread('output/6_perspective.jpg')
 
 
+
 plt.subplot(1,4,1)
 plt.imshow(img,cmap='gray')
 plt.subplot(1,4,2)
@@ -83,6 +86,7 @@ answersheet= cv2.resize(A4, (620,877))
 
 cv2.imshow('answersheet)', answersheet)
 cv2.waitKey(0)
+cropped_image = img[80:280, 150:330]
 
 
 
@@ -93,6 +97,39 @@ thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
 cv2.imshow('thresh-answersheet)', thresh)
 cv2.waitKey(0)
 cv2.imwrite('output/thresh-A4.jpg', thresh)
+
+plt.imshow(thresh)
+plt.show()
+# crop_img = img[y:y+h, x:x+w]
+y=249
+x=145
+h=20
+w=35
+cropped_image = thresh[y:y+h, x:x+w]
+L = label(cropped_image)
+props = regionprops(L)
+print('sum : ',props.__len__() )
+if props.__len__()== 4 :
+    cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    A1 = 1
+
+y1=249
+x1=190
+h=20
+w=35
+cropped_image = thresh[y1:y1+h, x1:x1+w]
+cv2.rectangle(answersheet, (x1, y1), (x1 + w, y1 + h), (0, 0, 255), 2)
+L = label(cropped_image)
+props = regionprops(L)
+print('sum : ',props.__len__() )
+if props.__len__()== 4 :
+    cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    A1 = 1
+
+cv2.imshow('cropped_image', cropped_image)
+cv2.waitKey(0)
+cv2.imshow('answersheet', answersheet)
+cv2.waitKey(0)
 # cv2.imshow("Scanned", result)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
