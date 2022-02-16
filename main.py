@@ -123,7 +123,20 @@ L = label(cropped_image)
 props = regionprops(L)
 print('sum : ',props.__len__() )
 if props.__len__()== 4 :
-    cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    cv2.rectangle(answersheet, (x1, y1), (x1 + w, y1 + h), (0, 0, 255), 2)
+    A1 = 1
+
+y2=249
+x2=235
+h=20
+w=35
+cropped_image = thresh[y2:y2+h, x2:x2+w]
+cv2.rectangle(answersheet, (x2, y2), (x2 + w, y2 + h), (0, 0, 255), 2)
+L = label(cropped_image)
+props = regionprops(L)
+print('sum : ',props.__len__() )
+if props.__len__()== 4 :
+    cv2.rectangle(answersheet, (x2, y2), (x2 + w, y2 + h), (0, 0, 255), 2)
     A1 = 1
 
 cv2.imshow('cropped_image', cropped_image)
