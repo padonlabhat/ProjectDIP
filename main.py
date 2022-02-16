@@ -1,6 +1,7 @@
 import imutils
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 def peepsctive(thresh):
     corners = cv2.goodFeaturesToTrack(thresh, 4, 0.01, 100)
@@ -47,7 +48,7 @@ def peepsctive(thresh):
     print(myPoints)
 
     w = 2480;
-    h = 3500;
+    h = 3508;
     pts1 = np.float32([myPoints[1], myPoints[0], myPoints[2], myPoints[3]])
     pts2 = np.float32([[0, 0], [w, 0], [0, h], [w, h]])
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
@@ -67,9 +68,31 @@ def preimg(imS) :
 img = cv2.imread('input img/test (6).jpg')
 # imS= cv2.resize(img, (5000, 4700))
 peepsctive(preimg(img))
+A4 = cv2.imread('output/6_perspective.jpg')
+
+
+plt.subplot(1,4,1)
+plt.imshow(img,cmap='gray')
+plt.subplot(1,4,2)
+plt.imshow(A4,cmap='gray')
+# plt.subplot(1,4,3)
+# plt.imshow(D,cmap='gray')
+preimg(A4)
+plt.show()
+answersheet= cv2.resize(A4, (620,877))
+
+cv2.imshow('answersheet)', answersheet)
+cv2.waitKey(0)
 
 
 
+gray = cv2.cvtColor(answersheet, cv2.COLOR_BGR2GRAY)
+thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
+
+
+cv2.imshow('thresh-answersheet)', thresh)
+cv2.waitKey(0)
+cv2.imwrite('output/thresh-A4.jpg', thresh)
 # cv2.imshow("Scanned", result)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
