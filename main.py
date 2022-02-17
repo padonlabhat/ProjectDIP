@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import skimage
-from  skimage.measure import label,regionprops
+from skimage.measure import label,regionprops
 import array as arr
 
 def peepsctive(thresh):
@@ -25,7 +25,6 @@ def peepsctive(thresh):
         epsilon = 0.06 * cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, epsilon, True)
         # contourSS = cv2.drawContours(img, [approx], 0, (0, 255,0), 2)
-
         print(approx)
     cv2.imwrite('output/5contour.jpg', img)
 
@@ -57,23 +56,27 @@ def peepsctive(thresh):
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
     result = cv2.warpPerspective(img, matrix, (w, h))
     cv2.imwrite('output/6_perspective.jpg', result)
-
     return result
 
 def preimg(imS) :
-    cv2.imwrite('output/0img.jpg', imS)
+    cv2.imwrite('output/1img.jpg', imS)
     gray = cv2.cvtColor(imS, cv2.COLOR_BGR2GRAY)
     cv2.imwrite('output/2pre_blurred.jpg', gray)
+
     thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
+    # thresh = cv2.threshold(gray, 132, 255, cv2.THRESH_BINARY)[1]
+
     cv2.imwrite('output/3pre_thresh.jpg', thresh)
     return thresh
+
 # ***********************************************************************************************************************
 img = cv2.imread('input img/test (6).jpg')
+# img = cv2.imread('input img/test (13).jpg')
+
 # imS= cv2.resize(img, (5000, 4700))
+
 peepsctive(preimg(img))
 A4 = cv2.imread('output/6_perspective.jpg')
-
-
 
 # plt.subplot(1,4,1)
 # plt.imshow(img,cmap='gray')
@@ -88,76 +91,107 @@ answersheet= cv2.resize(A4, (620,877))
 # cv2.imshow('answersheet)', answersheet)
 # cv2.waitKey(0)
 cropped_image = img[80:280, 150:330]
-
-
-
 gray = cv2.cvtColor(answersheet, cv2.COLOR_BGR2GRAY)
-thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
 
+thresh = cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)[1]
+# thresh = cv2.threshold(gray, 152, 255, cv2.THRESH_BINARY)[1]
 
-# cv2.imshow('thresh-answersheet)', thresh)
-# cv2.waitKey(0)
 cv2.imwrite('output/thresh-A4.jpg', thresh)
+cv2.imshow('thresh-answersheet)', thresh)
+cv2.waitKey(0)
 
-plt.imshow(thresh)
-plt.show()
+# plt.imshow(thresh)
+# plt.show()
 # crop_img = img[y:y+h, x:x+w]
-y=248
-x=145
-h=20
-w=35
-ans=[]
+
+y=250
+x=146
+h=18
+w=32
+ansCorrect=[]
 sum =0
-ans2=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
+ansUser=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D' ,'A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
 choose=''
 for i in range(15):
-    # print('ข้อที่ ', i+1)
+    print('ข้อที่ ', i+1)
     num = 0
     for i in range(4):
         cropped_image = thresh[y:y+h, x:x+w]
         L = label(cropped_image)
         props = regionprops(L)
 
-        # print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
-        # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
+        cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
             if i+1 == 1 :
                 choose = 'A'
-
             if i+1 == 2 :
                 choose = 'B'
-
             if i+1 == 3 :
                 choose = 'C'
-
             if i+1 == 4 :
                 choose = 'D'
-
             num+=1
-
-
 
             # if num > 1 :
             #     cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-
         x += 45
+
     # print(num)
     if num == 1:
-        ans.append(choose)
+        ansCorrect.append(choose)
     elif num >1 :
-        ans.append('More')
+        ansCorrect.append('More')
     else :
-        ans.append('NF')
-    x = 145
+        ansCorrect.append('NF')
+    x = 146
     y += 26
 
-print('ans ', ans)
-print('ans2', ans2)
+y=250
+x=366
 for i in range(15):
-    if ans[i]==ans2[i]:
+    print('ข้อที่ ', i+16)
+    num = 0
+    for i in range(4):
+        cropped_image = thresh[y:y+h, x:x+w]
+        L = label(cropped_image)
+        props = regionprops(L)
+
+        print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
+        cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+
+        if props.__len__()== 4 :
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
+            if i+1 == 1 :
+                choose = 'A'
+            if i+1 == 2 :
+                choose = 'B'
+            if i+1 == 3 :
+                choose = 'C'
+            if i+1 == 4 :
+                choose = 'D'
+            num+=1
+
+            # if num > 1 :
+            #     cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        x += 45
+
+    # print(num)
+    if num == 1:
+        ansCorrect.append(choose)
+    elif num >1 :
+        ansCorrect.append('More')
+    else :
+        ansCorrect.append('NF')
+    x = 367
+    y += 26
+
+print('ansCorrect ', ansCorrect)
+print('ansUser', ansUser)
+for i in range(30):
+    if ansCorrect[i]==ansUser[i]:
         sum+=1
 
 print('sum : ',sum)
