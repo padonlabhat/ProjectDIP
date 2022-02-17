@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import skimage
 from  skimage.measure import label,regionprops
+import array as arr
 
 def peepsctive(thresh):
     corners = cv2.goodFeaturesToTrack(thresh, 4, 0.01, 100)
@@ -98,33 +99,54 @@ thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
 # cv2.waitKey(0)
 cv2.imwrite('output/thresh-A4.jpg', thresh)
 
-# plt.imshow(thresh)
-# plt.show()
+plt.imshow(thresh)
+plt.show()
 # crop_img = img[y:y+h, x:x+w]
-y=249
+y=248
 x=145
 h=20
 w=35
+ans=[]
+sum =0
+ans2=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
 for i in range(15):
+    # print('ข้อที่ ', i+1)
+
     for i in range(4):
         cropped_image = thresh[y:y+h, x:x+w]
         L = label(cropped_image)
         props = regionprops(L)
-        print('sum : ',props.__len__() )
+
+        # print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
         # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
-            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            if i+1 == 1 :
+                ans.append('A')
+            if i+1 == 2 :
+                ans.append('B')
+            if i+1 == 3 :
+                ans.append('C')
+            if i+1 == 4 :
+                ans.append('D')
 
         x += 45
+
     x = 145
     y += 26
 
+print('ans ', ans)
+print('ans2', ans2)
+for i in range(15):
+    if ans[i]==ans2[i]:
+        sum+=1
 
+print('sum : ',sum)
 # cv2.imshow('cropped_image', cropped_image)
 # cv2.waitKey(0)
-cv2.imshow('answersheet', answersheet)
-cv2.waitKey(0)
+# cv2.imshow('answersheet', answersheet)
+# cv2.waitKey(0)
 # cv2.imshow("Scanned", result)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
