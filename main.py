@@ -109,9 +109,10 @@ w=35
 ans=[]
 sum =0
 ans2=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
+choose=''
 for i in range(15):
     # print('ข้อที่ ', i+1)
-
+    num = 0
     for i in range(4):
         cropped_image = thresh[y:y+h, x:x+w]
         L = label(cropped_image)
@@ -121,18 +122,35 @@ for i in range(15):
         # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
-            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
             if i+1 == 1 :
-                ans.append('A')
+                choose = 'A'
+
             if i+1 == 2 :
-                ans.append('B')
+                choose = 'B'
+
             if i+1 == 3 :
-                ans.append('C')
+                choose = 'C'
+
             if i+1 == 4 :
-                ans.append('D')
+                choose = 'D'
+
+            num+=1
+
+
+
+            # if num > 1 :
+            #     cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
 
         x += 45
-
+    # print(num)
+    if num == 1:
+        ans.append(choose)
+    elif num >1 :
+        ans.append('More')
+    else :
+        ans.append('NF')
     x = 145
     y += 26
 
@@ -145,8 +163,8 @@ for i in range(15):
 print('sum : ',sum)
 # cv2.imshow('cropped_image', cropped_image)
 # cv2.waitKey(0)
-# cv2.imshow('answersheet', answersheet)
-# cv2.waitKey(0)
+cv2.imshow('answersheet', answersheet)
+cv2.waitKey(0)
 # cv2.imshow("Scanned", result)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
