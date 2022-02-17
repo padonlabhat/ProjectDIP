@@ -74,18 +74,18 @@ A4 = cv2.imread('output/6_perspective.jpg')
 
 
 
-plt.subplot(1,4,1)
-plt.imshow(img,cmap='gray')
-plt.subplot(1,4,2)
-plt.imshow(A4,cmap='gray')
+# plt.subplot(1,4,1)
+# plt.imshow(img,cmap='gray')
+# plt.subplot(1,4,2)
+# plt.imshow(A4,cmap='gray')
 # plt.subplot(1,4,3)
 # plt.imshow(D,cmap='gray')
-preimg(A4)
-plt.show()
+# preimg(A4)
+# plt.show()
 answersheet= cv2.resize(A4, (620,877))
 
-cv2.imshow('answersheet)', answersheet)
-cv2.waitKey(0)
+# cv2.imshow('answersheet)', answersheet)
+# cv2.waitKey(0)
 cropped_image = img[80:280, 150:330]
 
 
@@ -94,53 +94,35 @@ gray = cv2.cvtColor(answersheet, cv2.COLOR_BGR2GRAY)
 thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)[1]
 
 
-cv2.imshow('thresh-answersheet)', thresh)
-cv2.waitKey(0)
+# cv2.imshow('thresh-answersheet)', thresh)
+# cv2.waitKey(0)
 cv2.imwrite('output/thresh-A4.jpg', thresh)
 
-plt.imshow(thresh)
-plt.show()
+# plt.imshow(thresh)
+# plt.show()
 # crop_img = img[y:y+h, x:x+w]
 y=249
 x=145
 h=20
 w=35
-cropped_image = thresh[y:y+h, x:x+w]
-L = label(cropped_image)
-props = regionprops(L)
-print('sum : ',props.__len__() )
-if props.__len__()== 4 :
-    cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    A1 = 1
+for i in range(15):
+    for i in range(4):
+        cropped_image = thresh[y:y+h, x:x+w]
+        L = label(cropped_image)
+        props = regionprops(L)
+        print('sum : ',props.__len__() )
+        # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
-y1=249
-x1=190
-h=20
-w=35
-cropped_image = thresh[y1:y1+h, x1:x1+w]
-cv2.rectangle(answersheet, (x1, y1), (x1 + w, y1 + h), (0, 0, 255), 2)
-L = label(cropped_image)
-props = regionprops(L)
-print('sum : ',props.__len__() )
-if props.__len__()== 4 :
-    cv2.rectangle(answersheet, (x1, y1), (x1 + w, y1 + h), (0, 0, 255), 2)
-    A1 = 1
+        if props.__len__()== 4 :
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
-y2=249
-x2=235
-h=20
-w=35
-cropped_image = thresh[y2:y2+h, x2:x2+w]
-cv2.rectangle(answersheet, (x2, y2), (x2 + w, y2 + h), (0, 0, 255), 2)
-L = label(cropped_image)
-props = regionprops(L)
-print('sum : ',props.__len__() )
-if props.__len__()== 4 :
-    cv2.rectangle(answersheet, (x2, y2), (x2 + w, y2 + h), (0, 0, 255), 2)
-    A1 = 1
+        x += 45
+    x = 145
+    y += 26
 
-cv2.imshow('cropped_image', cropped_image)
-cv2.waitKey(0)
+
+# cv2.imshow('cropped_image', cropped_image)
+# cv2.waitKey(0)
 cv2.imshow('answersheet', answersheet)
 cv2.waitKey(0)
 # cv2.imshow("Scanned", result)
