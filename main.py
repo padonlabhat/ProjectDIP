@@ -177,7 +177,7 @@ for i in range(30):
             if (ansCorrect[i - 1] == 'B' and ansCorrect[i - 2] == 'C' and ansCorrect[i - 3] == 'D'):
                  print('มีคำตอบเรียงกันเกิน 4 ข้อ ได้แก่ข้อ', i - 2, ',', i - 1, ',', i, ',', i + 1)
 print('sum : ',sum)
-cv2.putText(answersheet, str(sum), (485, 165), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0))
+cv2.putText(answersheet, str(sum), (485, 165), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),thickness=5)
 # cv2.imshow('cropped_image', cropped_image)
 # cv2.waitKey(0)
 cv2.imshow('answersheet', answersheet)
