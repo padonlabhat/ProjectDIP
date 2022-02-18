@@ -96,42 +96,51 @@ gray = cv2.cvtColor(answersheet, cv2.COLOR_BGR2GRAY)
 thresh = cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)[1]
 # thresh = cv2.threshold(gray, 152, 255, cv2.THRESH_BINARY)[1]
 
-cv2.imwrite('output/thresh-A4.jpg', thresh)
-cv2.imshow('thresh-answersheet)', thresh)
-cv2.waitKey(0)
+# cv2.imwrite('output/thresh-A4.jpg', thresh)
+# cv2.imshow('thresh-answersheet)', thresh)
+# cv2.waitKey(0)
 
 # plt.imshow(thresh)
 # plt.show()
 # crop_img = img[y:y+h, x:x+w]
 
 y=250
-x=146
 h=18
 w=32
 ansCorrect=[]
 sum =0
 ansUser=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D' ,'A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
 choose=''
-for i in range(15):
+for i in range(30):
+    if i < 15 :
+        x = 146
+
+        print('loop 1-', i)
+    else :
+        print('loop 2-', i)
+        if i == 15 :
+            y=250
+
+        x = 366
     print('ข้อที่ ', i+1)
     num = 0
-    for i in range(4):
+    for j in range(4):
         cropped_image = thresh[y:y+h, x:x+w]
         L = label(cropped_image)
         props = regionprops(L)
 
-        print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
+        print('ตัวเลือกที่ ',j+1 ,'sum : ',props.__len__() )
         cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
-            if i+1 == 1 :
+            if j+1 == 1 :
                 choose = 'A'
-            if i+1 == 2 :
+            if j+1 == 2 :
                 choose = 'B'
-            if i+1 == 3 :
+            if j+1 == 3 :
                 choose = 'C'
-            if i+1 == 4 :
+            if j+1 == 4 :
                 choose = 'D'
             num+=1
 
@@ -146,47 +155,14 @@ for i in range(15):
         ansCorrect.append('More')
     else :
         ansCorrect.append('NF')
-    x = 146
+    # x = 146
+    # y += 26
+
+
+
     y += 26
 
-y=250
-x=366
-for i in range(15):
-    print('ข้อที่ ', i+16)
-    num = 0
-    for i in range(4):
-        cropped_image = thresh[y:y+h, x:x+w]
-        L = label(cropped_image)
-        props = regionprops(L)
 
-        print('ตัวเลือกที่ ',i+1 ,'sum : ',props.__len__() )
-        cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
-
-        if props.__len__()== 4 :
-            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
-            if i+1 == 1 :
-                choose = 'A'
-            if i+1 == 2 :
-                choose = 'B'
-            if i+1 == 3 :
-                choose = 'C'
-            if i+1 == 4 :
-                choose = 'D'
-            num+=1
-
-            # if num > 1 :
-            #     cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        x += 45
-
-    # print(num)
-    if num == 1:
-        ansCorrect.append(choose)
-    elif num >1 :
-        ansCorrect.append('More')
-    else :
-        ansCorrect.append('NF')
-    x = 367
-    y += 26
 
 print('ansCorrect ', ansCorrect)
 print('ansUser', ansUser)
