@@ -100,8 +100,8 @@ thresh = cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)[1]
 # cv2.imshow('thresh-answersheet)', thresh)
 # cv2.waitKey(0)
 
-# plt.imshow(thresh)
-# plt.show()
+plt.imshow(thresh)
+plt.show()
 # crop_img = img[y:y+h, x:x+w]
 
 y=250
@@ -109,7 +109,7 @@ h=18
 w=32
 ansCorrect=[]
 sum =0
-ansUser=['A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D' ,'A', 'C', 'A', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'A', 'B', 'D']
+ansUser=['A', 'B', 'C', 'D', 'C', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'B', 'C', 'D' ,'D', 'C', 'B', 'A', 'D', 'C', 'G', 'B', 'B', 'D', 'C', 'A', 'B', 'C', 'D']
 choose=''
 for i in range(30):
     if i < 15 :
@@ -130,7 +130,7 @@ for i in range(30):
         props = regionprops(L)
 
         print('ตัวเลือกที่ ',j+1 ,'sum : ',props.__len__() )
-        cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
@@ -155,9 +155,6 @@ for i in range(30):
         ansCorrect.append('More')
     else :
         ansCorrect.append('NF')
-    # x = 146
-    # y += 26
-
 
 
     y += 26
@@ -169,8 +166,18 @@ print('ansUser', ansUser)
 for i in range(30):
     if ansCorrect[i]==ansUser[i]:
         sum+=1
-
+    if i >= 3:
+        if ansCorrect[i] == ansCorrect[i - 1] == ansCorrect[i - 2]:
+            print('มีคำตอบซ้ำกันเกิน 2 ข้อ ได้แก่ข้อ', i, ',', i - 1, ',', i - 2)
+        if ansCorrect[i] == 'D':
+            if (ansCorrect[i - 1] == 'C' and ansCorrect[i - 2] == 'B' and ansCorrect[i - 3] == 'A') :
+                print('มีคำตอบเรียงกันเกิน 4 ข้อ ได้แก่ข้อ',i-2 ,',',i-1,',',i,',',i+1)
+    if i >= 6:
+        if ansCorrect[i] == 'A':
+            if (ansCorrect[i - 1] == 'B' and ansCorrect[i - 2] == 'C' and ansCorrect[i - 3] == 'D'):
+                 print('มีคำตอบเรียงกันเกิน 4 ข้อ ได้แก่ข้อ', i - 2, ',', i - 1, ',', i, ',', i + 1)
 print('sum : ',sum)
+cv2.putText(answersheet, str(sum), (485, 165), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0))
 # cv2.imshow('cropped_image', cropped_image)
 # cv2.waitKey(0)
 cv2.imshow('answersheet', answersheet)
