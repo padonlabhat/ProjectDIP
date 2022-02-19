@@ -143,18 +143,27 @@ for i in range(30):
             if j+1 == 4 :
                 choose = 'D'
             num+=1
+        elif props.__len__() == 10 and num == 1 :
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (255, 0, 0), 1)
+            num = 1
+        elif props.__len__() == 10 and num == 0:
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (255, 0, 0), 1)
+            num = 0
+        elif props.__len__() != 1 and props[i].area < h*w :
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+            num = 5
 
-            # if num > 1 :
-            #     cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 2)
         x += 45
 
     # print(num)
     if num == 1:
         ansCorrect.append(choose)
-    elif num >1 :
+    elif 1 < num <= 4  :
         ansCorrect.append('More')
-    else :
+    elif num == 0:
         ansCorrect.append('NF')
+    else :
+        ansCorrect.append('ERROR')
 
 
     y += 26
