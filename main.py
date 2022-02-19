@@ -11,7 +11,7 @@ def peepsctive(thresh):
     corners = np.int0(corners)
     for corner in corners:
         x, y = corner.ravel()
-        cv2.circle(img, (x, y), 3, (255, 0, 0), -1)
+        # cv2.circle(img, (x, y), 3, (255, 0, 0), -1)
 
     edged = cv2.Canny(thresh, 50, 100)
     edged = cv2.dilate(edged, None, iterations=1)
@@ -70,7 +70,7 @@ def preimg(imS) :
     return thresh
 
 # ***********************************************************************************************************************
-img = cv2.imread('input img/test (6).jpg')
+img = cv2.imread('input img/test_5.jpg')
 # img = cv2.imread('input img/test (13).jpg')
 
 # imS= cv2.resize(img, (5000, 4700))
@@ -130,7 +130,7 @@ for i in range(30):
         props = regionprops(L)
 
         print('ตัวเลือกที่ ',j+1 ,'sum : ',props.__len__() )
-        # cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
         if props.__len__()== 4 :
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 255, 0), 1)
@@ -143,14 +143,14 @@ for i in range(30):
             if j+1 == 4 :
                 choose = 'D'
             num+=1
-        elif props.__len__() == 10 and num == 1 :
+        elif props.__len__() == 6 and num == 1 :
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (255, 0, 0), 1)
             num = 1
-        elif props.__len__() == 10 and num == 0:
+        elif props.__len__() == 6 and num == 0:
             cv2.rectangle(answersheet, (x, y), (x + w, y + h), (255, 0, 0), 1)
             num = 0
-        elif props.__len__() != 1 and props[i].area < h*w :
-            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        elif props.__len__() != 1  :
+            cv2.rectangle(answersheet, (x, y), (x + w, y + h), (255, 10, 255), 1)
             num = 5
 
         x += 45
@@ -177,7 +177,7 @@ for i in range(30):
         sum+=1
     if i >= 3:
         if ansCorrect[i] == ansCorrect[i - 1] == ansCorrect[i - 2]:
-            print('มีคำตอบซ้ำกันเกิน 2 ข้อ ได้แก่ข้อ', i, ',', i - 1, ',', i - 2)
+            print('มีคำตอบซ้ำกันเกิน 2 ข้อ ได้แก่ข้อ', i+1, ',', i, ',', i - 1)
         if ansCorrect[i] == 'D':
             if (ansCorrect[i - 1] == 'C' and ansCorrect[i - 2] == 'B' and ansCorrect[i - 3] == 'A') :
                 print('มีคำตอบเรียงกันเกิน 4 ข้อ ได้แก่ข้อ',i-2 ,',',i-1,',',i,',',i+1)
