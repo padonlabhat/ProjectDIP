@@ -129,7 +129,7 @@ ansUser = []
 sum = 0
 choose = ''
 choose2 = ''
-img = cv2.imread('input img/test (6).jpg')
+img = cv2.imread('input img/test_7.jpg')
 peepsctive(preimg(img))
 A4 = cv2.imread('output/6_perspective.jpg')
 answersheet = cv2.resize(A4, (620, 877))
@@ -196,7 +196,7 @@ for i in range(30):
     y += 26
 
 choose2 = ''
-img2 = cv2.imread('input2/test_4.jpg')
+img2 = cv2.imread('input2/test_6.jpg')
 cal = peepsctive2(preimg2(img2))
 A4 = cv2.imread('output2/perspective.jpg')
 answersheet2 = cv2.resize(A4, (620, 877))
