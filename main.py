@@ -136,8 +136,8 @@ answersheet = cv2.resize(A4, (620, 877))
 cropped_image = img[80:280, 150:330]
 gray = cv2.cvtColor(answersheet, cv2.COLOR_BGR2GRAY)
 thresh = cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)[1]
-plt.imshow(thresh)
-plt.show()
+#plt.imshow(thresh)
+#plt.show()
 
 for i in range(30):
     if i < 15:
@@ -196,15 +196,16 @@ for i in range(30):
     y += 26
 
 choose2 = ''
-img2 = cv2.imread('input2/test_6.jpg')
+# test By Choose image Down Here 
+img2 = cv2.imread('input2/test_5.jpg')
 cal = peepsctive2(preimg2(img2))
 A4 = cv2.imread('output2/perspective.jpg')
 answersheet2 = cv2.resize(A4, (620, 877))
 cropped_image = img2[80:280, 150:330]
 gray = cv2.cvtColor(answersheet2, cv2.COLOR_BGR2GRAY)
 thresh2 = cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)[1]
-plt.imshow(thresh2)
-plt.show()
+#plt.imshow(thresh2)
+#plt.show()
 
 x = 146
 y = 250
